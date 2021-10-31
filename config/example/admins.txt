@@ -5,6 +5,6 @@
 # Ranks can be anything defined in admin_ranks.txt           ~Carn   #
 ######################################################################
 
-Hindyminte - Host
-SilenceInside - Host
-ARefrigerator - Host
+theblackflag- Host
+thespire - Host
+randomman - Host
