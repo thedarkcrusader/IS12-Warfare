@@ -365,8 +365,8 @@
 #define SKILL_LEVEL(x) my_skills[SKILL(x)]?.level
 
 //TDM
-#define BLUE_TEAM "Bluecoats"
-#define RED_TEAM "Redcoats"
+#define BLUE_TEAM "Frozen Star"
+#define RED_TEAM "Excelsior"
 
 /*
 #define SKILL_LOW(x) x<=4
