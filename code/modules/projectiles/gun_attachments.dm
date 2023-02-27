@@ -18,7 +18,7 @@
 	var/pixel_shift_x = 16 //Determines the amount of pixels to move the icon state for the overlay.
 	var/pixel_shift_y = 16 //Uses the bottom left corner of the item.
 
-	w_class = WEIGHT_CLASS_SMALL
+	w_class = ITEM_SIZE_SMALL
 	force = 0 //Don't try killing people with attachments please.
 	var/slot = null //"muzzle", "rail", "under", "stock"
 
@@ -39,9 +39,14 @@
 	var/delay_mod 		= 0 //Changes firing delay. Cannot go below 0.
 	var/burst_delay_mod = 0 //Changes burst firing delay. Cannot go below 0.
 	var/burst_mod 		= 0 //Changes burst rate. 1 == 0.
+	var/silenced = 0
 	var/size_mod 		= 0 //Increases the weight class.
 	var/attach_delay = 30 //How long in deciseconds it takes to attach a weapon with level 1 firearms training. Default is 30 seconds.
 	var/detach_delay = 30 //How long in deciseconds it takes to detach a weapon with level 1 firearms training. Default is 30 seconds.
+	var/current_rounds 	= 0 //How much it has.
+	var/max_rounds 		= 0 //How much ammo it can store
+
+	var/attachment_action_type
 	var/fire_delay_mod = 0 //how long in deciseconds this adds to your base fire delay.
 
 	var/attachment_firing_delay = 0 //the delay between shots, for attachments that fires stuff
@@ -50,7 +55,6 @@
 
 	var/flags_attach_features = ATTACH_REMOVABLE
 
-	var/attachment_action_type
 	var/scope_zoom_mod = FALSE //codex
 
 	var/ammo_mod = null			//what ammo the gun could also fire, different lasers usually.
@@ -118,7 +122,7 @@
 
 	master_gun.force 						-= melee_mod
 
-	master_gun.update_force_list()
+//	master_gun.update_force_list()
 
 	forceMove(get_turf(master_gun))
 
@@ -146,7 +150,7 @@
 			if("rail") update_overlays(rail, attachable)
 
 
-/obj/item/gun/update_overlays(obj/item/attachable/A, slot)
+/obj/item/gun/proc/update_overlays(obj/item/attachable/A, slot)
 	. = ..()
 	var/image/I = attachable_overlays[slot]
 	overlays -= I
@@ -182,6 +186,7 @@
 	accuracy_mod = -0.05
 	accuracy_unwielded_mod = -0.1
 	size_mod = 1
+	silenced = 1
 
 
 /obj/item/attachable/verticalgrip
@@ -189,16 +194,12 @@
 	desc = "A custom-built improved foregrip for better accuracy, less recoil, and less scatter when wielded especially during burst fire. \nHowever, it also increases weapon size, slightly increases wield delay and makes unwielded fire more cumbersome."
 	icon_state = "verticalgrip"
 	attach_icon = "verticalgrip_a"
-	wield_delay_mod = 0.2 SECONDS
 	size_mod = 1
 	slot = "under"
 	pixel_shift_x = 20
 	accuracy_mod = 0.1
 	recoil_mod = -2
-	scatter_mod = -10
-	burst_scatter_mod = -1
 	accuracy_unwielded_mod = -0.05
-	scatter_unwielded_mod = 5
 
 
 /obj/item/attachable/angledgrip
@@ -206,10 +207,10 @@
 	desc = "A custom-built improved foregrip for less recoil, and faster wielding time. \nHowever, it also increases weapon size, and slightly hinders unwielded firing."
 	icon_state = "angledgrip"
 	attach_icon = "angledgrip_a"
-	wield_delay_mod = -0.3 SECONDS
 	size_mod = 1
 	slot = "under"
 	pixel_shift_x = 20
 	recoil_mod = -1
 	accuracy_unwielded_mod = -0.1
-	scatter_unwielded_mod = 5
+
+

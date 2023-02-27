@@ -135,6 +135,8 @@
 	if(is_jammed)
 		if(jammed_icon)
 			icon_state = jammed_icon
+			update_attachables()
+			update_overlays()
 
 //Checks whether a given mob can use the gun
 //Any checks that shouldn't result in handle_click_empty() being called if they fail should go here.
